@@ -4,6 +4,7 @@ var React = require('react'),
 
 var DOM = React.DOM;
 var DateTimePickerDays = React.createClass({
+	displayName: 'DateTimePickerDays',
 
 	render: function() {
 		var footer = this.renderFooter(),

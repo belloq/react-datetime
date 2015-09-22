@@ -6,6 +6,8 @@ moment = require('moment')
 
 var DOM = React.DOM;
 var DateTimePickerMonths = React.createClass({
+	displayName: 'DateTimePickerMonths',
+
 	render: function() {
 		return DOM.div({ className: 'rdtMonths' },[
 			DOM.table({ key: 'a'}, DOM.thead({}, DOM.tr({},[

@@ -4,6 +4,8 @@ var React = require('react');
 
 var DOM = React.DOM;
 var DateTimePickerTime = React.createClass({
+	displayName: 'DateTimePickerTime',
+
 	getInitialState: function(){
 		return this.calculateState( this.props );
 	},

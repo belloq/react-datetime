@@ -4,6 +4,8 @@ var React = require('react');
 
 var DOM = React.DOM;
 var DateTimePickerYears = React.createClass({
+	displayName: 'DateTimePickerYears',
+
 	render: function() {
 		var year = parseInt(this.props.viewDate.year() / 10, 10) * 10;
 
