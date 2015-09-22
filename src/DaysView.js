@@ -116,15 +116,19 @@ var DateTimePickerDays = React.createClass({
 	},
 
 	renderFooter: function(){
-		if( !this.props.timeFormat )
+		if( !this.props.timeFormat && !this.props.clearButton )
 			return '';
 
-		var date = this.props.selectedDate || this.props.viewDate;
-		return DOM.tfoot({ key: 'tf'},
-			DOM.tr({},
-				DOM.td({ onClick: this.props.showView('time'), colSpan: 7, className: 'timeToggle'}, date.format( this.props.timeFormat ))
-			)
-		);
+		if( this.props.timeFormat ) {
+			var date = this.props.selectedDate || this.props.viewDate;
+			return DOM.tfoot({ key: 'tf'},
+				DOM.tr({},
+					DOM.td({ onClick: this.props.showView('time'), colSpan: 7, className: 'timeToggle'}, date.format( this.props.timeFormat ))
+				),
+				this.props.renderClearButton()
+			);
+		}
+		return this.props.renderClearButton(true);
 	},
 	isValidDate: function(){ return 1; }
 });

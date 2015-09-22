@@ -52,6 +52,8 @@ var DateTimePickerMonths = React.createClass({
 			i++;
 		}
 
+		rows.push( this.props.renderClearButton(true) );
+
 		return rows;
 	},
 

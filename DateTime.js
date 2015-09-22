@@ -49,7 +49,8 @@ var Datetime = React.createClass({
 			onBlur: nof,
 			onChange: nof,
 			timeFormat: true,
-			dateFormat: true
+			dateFormat: true,
+			clearButton: false
 		};
 	},
 
@@ -259,6 +260,18 @@ var Datetime = React.createClass({
 		}
 	},
 
+	handleClearValue: function(){
+		if( this.props.clearButton ) {
+			var update = {
+				inputValue: '',
+				selectedDate: null
+			};
+			return this.setState( update, function() {
+				return this.props.onChange( '' );
+			});
+		}
+	},
+
 	localMoment: function( date, format ){
 		var m = moment( date, format );
 		if( this.props.locale )
@@ -267,9 +280,9 @@ var Datetime = React.createClass({
 	},
 
 	componentProps: {
-		fromProps: ['value', 'isValidDate', 'renderDay', 'renderMonth', 'renderYear'],
+		fromProps: ['value', 'isValidDate', 'renderDay', 'renderMonth', 'renderYear', 'clearButton'],
 		fromState: ['viewDate', 'selectedDate' ],
-		fromThis: ['setDate', 'setTime', 'showView', 'addTime', 'subtractTime', 'updateSelectedDate', 'localMoment']
+		fromThis: ['setDate', 'setTime', 'showView', 'addTime', 'subtractTime', 'updateSelectedDate', 'localMoment', 'renderClearButton']
 	},
 
 	getComponentProps: function(){
@@ -289,6 +302,21 @@ var Datetime = React.createClass({
 		});
 
 		return props;
+	},
+
+	renderClearButton: function(includeTfoot){
+		if( !this.props.clearButton ) {
+			return '';
+		}
+		var DOM = React.DOM,
+		    tr = DOM.tr({},
+							 DOM.td({ onClick: this.handleClearValue, colSpan: 7, className: 'clearButton'}, 'Clear')
+						 )
+		;
+		if( includeTfoot === true ) {
+			return DOM.tfoot({ key: 'tf'}, tr);
+		}
+		return tr;
 	},
 
 	render: function() {

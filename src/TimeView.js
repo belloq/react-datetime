@@ -65,7 +65,8 @@ var DateTimePickerTime = React.createClass({
 				this.renderHeader(),
 				DOM.tbody({key: 'b'}, DOM.tr({}, DOM.td({},
 					DOM.div({ className: 'rdtCounters' }, counters )
-				)))
+				))),
+				this.props.renderClearButton(true)
 			])
 		);
 	},
