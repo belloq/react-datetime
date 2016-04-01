@@ -27,6 +27,7 @@ var Datetime = React.createClass({
 		// defaultValue: TYPES.object | TYPES.string,
 		onBlur: TYPES.func,
 		onChange: TYPES.func,
+		onFocus: TYPES.func,
 		locale: TYPES.string,
 		input: TYPES.bool,
 		// dateFormat: TYPES.string | TYPES.bool,
@@ -48,6 +49,7 @@ var Datetime = React.createClass({
 			input: true,
 			onBlur: nof,
 			onChange: nof,
+			onFocus: nof,
 			timeFormat: true,
 			dateFormat: true,
 			clearButton: false
@@ -250,7 +252,10 @@ var Datetime = React.createClass({
 	},
 
 	openCalendar: function() {
-		this.setState({ open: true });
+		if (!this.state.open) {
+			this.props.onFocus();
+			this.setState({ open: true });
+		}
 	},
 
 	handleClickOutside: function(){
