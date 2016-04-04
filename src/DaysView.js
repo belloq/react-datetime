@@ -116,7 +116,7 @@ var DateTimePickerDays = React.createClass({
 	},
 
 	renderFooter: function(){
-		if( !this.props.timeFormat && !this.props.clearButton )
+		if( !this.props.timeFormat && !this.props.clearButton && !this.props.noDateButton )
 			return '';
 
 		if( this.props.timeFormat ) {

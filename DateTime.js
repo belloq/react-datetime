@@ -52,7 +52,8 @@ var Datetime = React.createClass({
 			onFocus: nof,
 			timeFormat: true,
 			dateFormat: true,
-			clearButton: false
+			clearButton: false,
+			noDateButton: false
 		};
 	},
 
@@ -265,16 +266,27 @@ var Datetime = React.createClass({
 		}
 	},
 
-	handleClearValue: function(){
-		if( this.props.clearButton ) {
+	handleChange: function(switchFlag, value){
+		if (typeof value === "undefined") {
+			value = '';
+		}
+		if( switchFlag ) {
 			var update = {
-				inputValue: '',
+				inputValue: value,
 				selectedDate: null
 			};
 			return this.setState( update, function() {
-				return this.props.onChange( '' );
+				return this.props.onChange( value );
 			});
 		}
+	},
+
+	handleClearValue: function() {
+		return this.handleChange(this.props.clearButton);
+	},
+
+	handleNoDateValue: function() {
+		return this.handleChange(this.props.noDateButton, 'N/A');
 	},
 
 	localMoment: function( date, format ){
@@ -285,7 +297,7 @@ var Datetime = React.createClass({
 	},
 
 	componentProps: {
-		fromProps: ['value', 'isValidDate', 'renderDay', 'renderMonth', 'renderYear', 'clearButton'],
+		fromProps: ['value', 'isValidDate', 'renderDay', 'renderMonth', 'renderYear', 'clearButton', 'noDateButton'],
 		fromState: ['viewDate', 'selectedDate' ],
 		fromThis: ['setDate', 'setTime', 'showView', 'addTime', 'subtractTime', 'updateSelectedDate', 'localMoment', 'renderClearButton']
 	},
@@ -310,18 +322,25 @@ var Datetime = React.createClass({
 	},
 
 	renderClearButton: function(includeTfoot){
-		if( !this.props.clearButton ) {
+		if( !this.props.clearButton && !this.props.noDateButton) {
 			return '';
 		}
-		var DOM = React.DOM,
-		    tr = DOM.tr({},
-							 DOM.td({ onClick: this.handleClearValue, colSpan: 7, className: 'clearButton'}, 'Clear')
-						 )
-		;
-		if( includeTfoot === true ) {
-			return DOM.tfoot({ key: 'tf'}, tr);
+		var trs = []
+		var DOM = React.DOM;
+		if (this.props.clearButton) {
+			trs.push(DOM.tr({key: 'clearBtnTr'},
+				DOM.td({ onClick: this.handleClearValue, colSpan: 7, className: 'clearButton'}, 'Clear')
+			));
 		}
-		return tr;
+		if (this.props.noDateButton) {
+			trs.push(DOM.tr({key: 'naBtnTr'},
+				DOM.td({ onClick: this.handleNoDateValue, colSpan: 7, className: 'clearButton'}, 'No Date')
+			));
+		}
+		if( includeTfoot === true ) {
+			return DOM.tfoot({ key: 'tf'}, trs);
+		}
+		return trs;
 	},
 
 	render: function() {
